@@ -28,14 +28,24 @@ async def main():
             )
         )
 
+        tasks.append(
+            asyncio.create_task(
+                scrape_2021()
+            )
+        )
+
         page_content = await asyncio.gather(*tasks)
         
         # Saving the html (page-content) in local
 
-        with open(f'Output/single/year{2021}.html','w') as f:
+        with open(f'Output/single/collection{2021}.html','w') as f:
             f.write(page_content[0].decode())
 
-        
+
+async def scrape_2021():
+    """Scraping collections data data"""
+    
+
 
 if __name__ == "__main__":
 
