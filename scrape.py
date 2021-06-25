@@ -45,6 +45,30 @@ async def main():
 async def scrape_2021():
     """Scraping collections data data"""
     
+    raw_data = []
+    row_data = []
+
+    with open(f'Output/single/collection{2021}.html','r') as f:
+        source = f.read()
+
+    html = HTML(html=source)
+    
+    table = html.find('#table')[0]
+    rows = table.find('tr')
+
+    header = [i.text for i in rows[0].find('th')]
+
+    print(header)
+    for _, row in enumerate(rows[1:]):
+        
+        cols = row.find('td')
+        for _,col in enumerate(cols):
+            row_data.append(col.text)
+        
+        raw_data.append(row_data)
+    
+    
+
 
 
 if __name__ == "__main__":
