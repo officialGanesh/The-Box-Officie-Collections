@@ -44,7 +44,7 @@ async def main():
 
 
 async def scrape_2021():
-    """Scraping collections data data"""
+    """Scraping collections data"""
     
     
     raw_data = []
