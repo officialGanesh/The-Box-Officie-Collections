@@ -1,4 +1,5 @@
 import asyncio
+from pandas.core import indexing
 from requests_html import HTML
 from aiohttp import ClientSession
 import pandas as pd
@@ -45,8 +46,9 @@ async def main():
 async def scrape_2021():
     """Scraping collections data data"""
     
+    
     raw_data = []
-    row_data = []
+    
 
     with open(f'Output/single/collection{2021}.html','r') as f:
         source = f.read()
@@ -55,21 +57,22 @@ async def scrape_2021():
     
     table = html.find('#table')[0]
     rows = table.find('tr')
-
     header = [i.text for i in rows[0].find('th')]
 
-    print(header)
-    for _, row in enumerate(rows[1:]):
-        
+    
+    for row in rows[1:]:
+
         cols = row.find('td')
-        for _,col in enumerate(cols):
+        row_data = []
+        for index,col in enumerate(cols):
             row_data.append(col.text)
-        
+
         raw_data.append(row_data)
     
-    
+    # save data in csv
 
-
+    df = pd.DataFrame(raw_data,columns=header)
+    df.to_csv('Output/single/collection.csv',index=False)
 
 if __name__ == "__main__":
 
